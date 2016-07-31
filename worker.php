@@ -1,13 +1,59 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+//error_reporting(E_ALL);
+//ini_set('display_errors', '1');
 
 include("class/pData.class.php");
 include("class/pDraw.class.php");
 include("class/pImage.class.php");
 
+$ds          = DIRECTORY_SEPARATOR;
+
+// Undefined | Multiple Files | $_FILES Corruption Attack
+if (
+    !isset($_FILES['file']['error']) ||
+    is_array($_FILES['file']['error'])
+) {
+    throw new RuntimeException('Invalid parameters.');
+}
+
+// Check errors
+switch ($_FILES['file']['error']) {
+    case UPLOAD_ERR_OK:
+        break;
+    case UPLOAD_ERR_NO_FILE:
+        throw new RuntimeException('No file sent.');
+    case UPLOAD_ERR_INI_SIZE:
+    case UPLOAD_ERR_FORM_SIZE:
+        throw new RuntimeException('Exceeded filesize limit.');
+    default:
+        throw new RuntimeException('Unknown errors.');
+}
+
+// Check filesize
+if ($_FILES['file']['size'] > 100000000) {
+    throw new RuntimeException('Exceeded filesize limit.');
+}
+
+// Check MIME Type
+$finfo = new finfo(FILEINFO_MIME_TYPE);
+if (false === $ext = array_search(
+        $finfo->file($_FILES['file']['tmp_name']),
+        array(
+            'txt' => 'text/plain',
+        ),
+        true
+    )) {
+    throw new RuntimeException('Invalid file format.');
+}
+
+if (!empty($_FILES)) {
+
+    $tempFile = $_FILES['file']['tmp_name'];
+
+}
+
 //Parse file in array
-$handle = @fopen("testinput/testparse.txt", "r");
+$handle = @fopen($tempFile, "r");
 $energy = 0;
 $maxCurrent = 0;
 $maxPower = 0;
@@ -309,6 +355,8 @@ $Config = array("FontR"=>0, "FontG"=>0, "FontB"=>0, "FontName"=>"fonts/minecraft
 );
 $myPicture->drawLegend(1300,16,$Config);
 
-$myPicture->stroke(); 
+//$myPicture->stroke();
+$sha1name = sha1_file($_FILES['file']['tmp_name']);
+$myPicture->Render("temp/".$sha1name.".png");
 
 ?>
