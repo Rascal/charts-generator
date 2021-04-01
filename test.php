@@ -293,13 +293,18 @@ switch ($maxPower) {
 }
 
 
-$AxisBoundaries = array(0 => array("Min" => $minVoltageAxis, "Max" => $maxVoltageAxis), 1 => array("Min" => 0, "Max" => $maxCurrentAxis), 2 => array("Min" => 0, "Max" => $maxPowerAxis));
+$AxisBoundaries = array(0 => array("Min" => $minVoltageAxis, "Max" => $maxVoltageAxis), 1 => array("Min" => 0
+, "Max" => $maxCurrentAxis), 2 => array("Min" => 0, "Max" => $maxPowerAxis));
 $Settings = array("Pos" => SCALE_POS_LEFTRIGHT
 //, "Mode"=>SCALE_MODE_FLOATING
 , "Mode" => SCALE_MODE_MANUAL
 , "ManualScale" => $AxisBoundaries
 , "LabelingMethod" => LABELING_ALL
-, "GridR" => 255, "GridG" => 255, "GridB" => 255, "GridAlpha" => 50, "TickR" => 0, "TickG" => 0, "TickB" => 0, "TickAlpha" => 50, "LabelRotation" => 0, "LabelSkip" => $skips, "SkippedAxisAlpha" => 0, "CycleBackground" => TRUE, "DrawXLines" => 1, "DrawSubTicks" => 0, "SubTickR" => 0, "SubTickG" => 0, "SubTickB" => 0, "SubTickAlpha" => 50, "DrawYLines" => array(0));
+, "GridR" => 255, "GridG" => 255, "GridB" => 255, "GridAlpha" => 50
+, "TickR" => 0, "TickG" => 0, "TickB" => 0, "TickAlpha" => 50
+, "LabelRotation" => 0, "LabelSkip" => $skips, "SkippedAxisAlpha" => 0, "CycleBackground" => TRUE
+, "DrawXLines" => 1, "DrawSubTicks" => 0, "SubTickR" => 0, "SubTickG" => 0, "SubTickB" => 0, "SubTickAlpha" => 50
+, "DrawYLines" => array(0));
 $myPicture->drawScale($Settings);
 
 $myPicture->setShadow(TRUE, array("X" => 1, "Y" => 1, "R" => 50, "G" => 50, "B" => 50, "Alpha" => 10));
@@ -307,9 +312,8 @@ $myPicture->setShadow(TRUE, array("X" => 1, "Y" => 1, "R" => 50, "G" => 50, "B" 
 $Config = "";
 $myPicture->drawLineChart($Config);
 
-$Config = array("FontR" => 0, "FontG" => 0, "FontB" => 0, "FontName" => "fonts/minecraft.ttf", "FontSize" => 6, "Margin" => 6, "Alpha" => 30, "BoxSize" => 5, "Style" => LEGEND_NOBORDER
-, "Mode" => LEGEND_HORIZONTAL
-);
+$Config = array("FontR" => 0, "FontG" => 0, "FontB" => 0, "FontName" => "fonts/minecraft.ttf", "FontSize" => 6
+, "Margin" => 6, "Alpha" => 30, "BoxSize" => 5, "Style" => LEGEND_NOBORDER, "Mode" => LEGEND_HORIZONTAL);
 $myPicture->drawLegend(1300, 16, $Config);
 
 $myPicture->stroke();
