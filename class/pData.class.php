@@ -69,7 +69,7 @@
    /* Class creator */
    function __construct()
     {
-     $this->Data = "";
+     $this->Data = array();
      $this->Data["XAxisDisplay"]	= AXIS_FORMAT_DEFAULT;
      $this->Data["XAxisFormat"]		= NULL;
      $this->Data["XAxisName"]		= NULL;
@@ -265,7 +265,7 @@
 
    /* Mark all series as drawable */
    function drawAll()
-    { foreach($this->Data["Series"] as $Key => $Value) { if ( $this->Data["Abscissa"] != $Key ) { $this->Data["Series"][$Key]["isDrawable"]=TRUE; } } }    
+    { foreach($this->Data["Series"] as $Key => $Value) { if ( $this->Data["Abscissa"] != $Key ) { $this->Data["Series"][$Key]["isDrawable"]=TRUE; } } }
 
    /* Return the average value of the given serie */
    function getSerieAverage($Serie)
@@ -488,7 +488,7 @@
     {
      if ( !isset($this->Data["Series"][$Serie]) ) { return(NULL); }
 
-     $Result = "";
+     $Result = array();
      $Result["R"] = $this->Data["Series"][$Serie]["Color"]["R"];
      $Result["G"] = $this->Data["Series"][$Serie]["Color"]["G"];
      $Result["B"] = $this->Data["Series"][$Serie]["Color"]["B"];
@@ -528,7 +528,7 @@
    function loadPalette($FileName,$Overwrite=FALSE)
     {
      if ( !file_exists($FileName) ) { return(-1); }
-     if ( $Overwrite ) { $this->Palette = ""; }
+     if ( $Overwrite ) { $this->Palette = array(); }
 
      $fileHandle = @fopen($FileName, "r");
      if (!$fileHandle) { return(-1); }
@@ -606,12 +606,12 @@
        $this->Data["Series"][$Serie]["Color"]["Alpha"] = 100;
       }
     }
-     
+
    function normalize($NormalizationFactor=100,$UnitChange=NULL,$Round=1)
     {
      $Abscissa = $this->Data["Abscissa"];
 
-     $SelectedSeries = "";
+     $SelectedSeries = array();
      $MaxVal         = 0;
      foreach($this->Data["Axis"] as $AxisID => $Axis)
       {
@@ -738,7 +738,7 @@
       {
        if (isset($this->Data["Series"][$SerieName]))
         {
-         $Data = "";
+         $Data = array();
          foreach($this->Data["Series"][$SerieName]["Data"] as $Key => $Value)
           { if ( $Value == VOID ) { $Data[] = VOID; } else { $Data[] = -$Value; } }
          $this->Data["Series"][$SerieName]["Data"] = $Data;
@@ -775,14 +775,14 @@
 
    /* Convert a string to a single elements array */
    function convertToArray($Value)
-    { $Values = ""; $Values[] = $Value; return($Values); }
+    { $Values = array(); $Values[] = $Value; return($Values); }
 
    /* Class string wrapper */
    function __toString()
     { return("pData object."); }
 
-   function left($value,$NbChar)	{ return substr($value,0,$NbChar); }  
-   function right($value,$NbChar)	{ return substr($value,strlen($value)-$NbChar,$NbChar); }  
-   function mid($value,$Depart,$NbChar)	{ return substr($value,$Depart-1,$NbChar); }  
+   function left($value,$NbChar)	{ return substr($value,0,$NbChar); }
+   function right($value,$NbChar)	{ return substr($value,strlen($value)-$NbChar,$NbChar); }
+   function mid($value,$Depart,$NbChar)	{ return substr($value,$Depart-1,$NbChar); }
   }
 ?>

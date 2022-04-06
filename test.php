@@ -7,7 +7,7 @@ include("class/pDraw.class.php");
 include("class/pImage.class.php");
 
 //Parse file in array
-$handle = @fopen("testinput/testparse.txt", "r");
+$handle = @fopen("input.txt", "r");
 $energy = 0;
 $maxCurrent = 0;
 $maxPower = 0;
@@ -16,16 +16,16 @@ $maxVoltage = 0;
 if ($handle) {
     while (($buffer = fgets($handle, 4096)) !== false) {
 		$temp = explode(";", $buffer);
-        
+
         //absolute current and capacity
 		$temp[5] = abs($temp[5]);
 		$temp[8] = abs($temp[8]);
-        
+
         //calc energy and power
         $temp[3] = $temp[5]*$temp[7]/100000;
 		$energy = $energy + $temp[3]/3600;
         $data[] = $temp;
-        
+
         //find max/min
         if ($temp[3] > $maxPower) {
             $maxPower = $temp[3];
@@ -60,7 +60,7 @@ $myData->setAxisPosition(0,AXIS_POSITION_LEFT);
 $myData->setAxisName(0,"Batt.Voltage  [V]");
 $myData->setAxisUnit(0,"");
 $myData->setAxisDisplay(0,AXIS_FORMAT_CUSTOM,"FirstAxisFormat");
-function FirstAxisFormat($Value) { return($Value/1000); } 
+function FirstAxisFormat($Value) { return($Value/1000); }
 $myData->setAxisColor(0,array("R"=>109,"G"=>152,"B"=>171));
 
 $myData->addPoints(array_column($data, 5),"Serie2");
@@ -84,7 +84,7 @@ $myData->setAxisColor(2,array("R"=>255,"G"=>255,"B"=>255));
 $myData->addPoints(array_keys($data),"Absissa");
 $myData->setAbscissa("Absissa");
 $myData->setXAxisDisplay(AXIS_FORMAT_CUSTOM,"TimeAxisFormat");
-    
+
 //X axis D-H-m-s format
 function TimeAxisFormat($Value) {
 	switch ($Value) {
@@ -113,7 +113,7 @@ function TimeAxisFormat($Value) {
 				$output .= " ".fmod($Value, 24)."H";
 				}
 			return($output);
-			break; 
+			break;
 		default:
 			return("0");
 	}
@@ -309,6 +309,6 @@ $Config = array("FontR"=>0, "FontG"=>0, "FontB"=>0, "FontName"=>"fonts/minecraft
 );
 $myPicture->drawLegend(1300,16,$Config);
 
-$myPicture->stroke(); 
+$myPicture->stroke();
 
 ?>
